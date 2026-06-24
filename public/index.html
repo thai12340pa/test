@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberPulse v3.1 | Advanced Web Vulnerability Scanner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="matrixCanvas"></canvas>
+    <div class="scanlines"></div>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" stroke="url(#lg)" stroke-width="2" fill="none"/><path d="M20 8L20 32M8 20L32 20M12 12L28 28M28 12L12 28" stroke="url(#lg)" stroke-width="1.5" opacity=".5"/><circle cx="20" cy="20" r="6" stroke="url(#lg)" stroke-width="2" fill="none"/><circle cx="20" cy="20" r="2" fill="#00ff88"/><defs><linearGradient id="lg" x1="0" y1="0" x2="40" y2="40"><stop offset="0%" stop-color="#00ff88"/><stop offset="100%" stop-color="#00d4ff"/></linearGradient></defs></svg>
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-name">CyberPulse</span>
+                        <span class="logo-version">v3.1 • REAL SCANNER</span>
+                    </div>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="nav-section-title">SCANNER</span>
+                    <a href="#" class="nav-item active" data-panel="fullscan" id="nav-fullscan">
+                        <span class="nav-icon">⚡</span><span class="nav-label">Full Scan</span>
+                    </a>
+                </div>
+                <div class="nav-section">
+                    <span class="nav-section-title">MODULE RIÊNG</span>
+                    <a href="#" class="nav-item" data-panel="crawl"><span class="nav-icon">◎</span><span class="nav-label">Website Crawler</span></a>
+                    <a href="#" class="nav-item" data-panel="headers"><span class="nav-icon">◧</span><span class="nav-label">Security Headers</span></a>
+                    <a href="#" class="nav-item" data-panel="tech"><span class="nav-icon">⬡</span><span class="nav-label">Tech Detection</span></a>
+                    <a href="#" class="nav-item" data-panel="files"><span class="nav-icon">⊟</span><span class="nav-label">Sensitive Files</span></a>
+                    <a href="#" class="nav-item" data-panel="exposure"><span class="nav-icon">◇</span><span class="nav-label">Exposure Checks</span></a>
+                    <a href="#" class="nav-item" data-panel="xss"><span class="nav-icon">⚡</span><span class="nav-label">XSS Scanner</span></a>
+                    <a href="#" class="nav-item" data-panel="sqli"><span class="nav-icon">⛁</span><span class="nav-label">SQL Injection</span></a>
+                    <a href="#" class="nav-item" data-panel="lfi"><span class="nav-icon">📂</span><span class="nav-label">LFI / Path Traversal</span></a>
+                    <a href="#" class="nav-item" data-panel="cors"><span class="nav-icon">🌐</span><span class="nav-label">CORS Check</span></a>
+                    <a href="#" class="nav-item" data-panel="redirect"><span class="nav-icon">↪</span><span class="nav-label">Open Redirect</span></a>
+                    <a href="#" class="nav-item" data-panel="ssl"><span class="nav-icon">🔒</span><span class="nav-label">SSL/TLS Analysis</span></a>
+                    <a href="#" class="nav-item" data-panel="dns"><span class="nav-icon">◈</span><span class="nav-label">DNS Enumeration</span></a>
+                    <a href="#" class="nav-item" data-panel="subdomains"><span class="nav-icon">🔍</span><span class="nav-label">Subdomain Discovery</span></a>
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="system-status"><span class="status-dot pulse"></span><span class="status-text">Engine Online</span></div>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <main class="main-content">
+            <header class="topbar">
+                <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+                <div class="topbar-left">
+                    <div class="breadcrumb"><span class="breadcrumb-icon">⚡</span><span class="breadcrumb-text" id="breadcrumb">Full Scan</span></div>
+                </div>
+                <div class="topbar-right">
+                    <div class="topbar-clock" id="topbarClock"></div>
+                    <div class="topbar-indicator"><span class="indicator-dot"></span><span>Real Scanner Engine</span></div>
+                </div>
+            </header>
+
+            <div class="content-area" id="contentArea">
+
+                <!-- ====== FULL SCAN ====== -->
+                <div class="panel active" id="panel-fullscan">
+                    <div class="dashboard-hero">
+                        <div class="hero-content">
+                            <h1 class="hero-title">
+                                <span class="glitch" data-text="CyberPulse">CyberPulse</span>
+                                <span class="hero-subtitle">Advanced Web Vulnerability Scanner</span>
+                            </h1>
+                            <p class="hero-desc">Scanner thực sự — crawl website, gửi payload, phân tích response, phát hiện lỗ hổng thực tế. Không mô phỏng.</p>
+                            <div class="warning-box">⚠ CHỈ SỬ DỤNG CHO MỤC ĐÍCH KIỂM THỬ BẢO MẬT ĐƯỢC ỦY QUYỀN. Bạn tự chịu trách nhiệm.</div>
+                        </div>
+                    </div>
+                    <div class="tool-section">
+                        <div class="input-group">
+                            <input type="text" id="fullscanTarget" placeholder="https://target-website.com" class="cyber-input large">
+                            <button class="cyber-btn primary" id="btnFullScan" onclick="Scanner.fullScan()">
+                                <span class="btn-text">🚀 FULL SCAN</span>
+                            </button>
+                        </div>
+                        <div id="fullscanProgress" class="scan-live" style="display:none">
+                            <div class="live-header">
+                                <div class="live-dot"></div>
+                                <span>SCANNING...</span>
+                                <span id="fullscanTimer" class="live-timer">00:00</span>
+                            </div>
+                            <div class="live-log" id="fullscanLog"></div>
+                            <div class="progress-bar"><div class="progress-fill" id="fullscanFill"></div></div>
+                        </div>
+                        <div id="fullscanSummary" style="display:none"></div>
+                        <div id="fullscanResults"></div>
+                    </div>
+                </div>
+
+                <!-- ====== INDIVIDUAL MODULE PANELS ====== -->
+                <div class="panel" id="panel-crawl">
+                    <div class="panel-header"><h1>◎ Website Crawler</h1><p>Crawl thật sự — theo dõi links, tìm forms, params, trang ẩn</p></div>
+                    <div class="tool-section">
+                        <div class="input-group"><input type="text" id="crawlTarget" placeholder="https://target.com" class="cyber-input large"><button class="cyber-btn primary" onclick="Scanner.runModule('crawl')"><span class="btn-text">CRAWL</span></button></div>
+                        <div class="result-area" id="crawlResults"><div class="result-placeholder"><span class="placeholder-icon">◎</span><p>Nhập URL để crawl website</p></div></div>
+                    </div>
+                </div>
+                <div class="panel" id="panel-headers">
+                    <div class="panel-header"><h1>◧ Security Headers</h1><p>Phân tích thực tế HTTP response headers và chấm điểm bảo mật</p></div>
+                    <div class="tool-section">
+                        <div class="input-group"><input type="text" id="headersTarget" placeholder="https://target.com" class="cyber-input large"><button class="cyber-btn primary" onclick="Scanner.runModule('headers')"><span class="btn-text">ANALYZE</span></button></div>
+                        <div class="result-area" id="headersResults"><div class="result-placeholder"><span class="placeholder-icon">◧</span><p>Nhập URL để phân tích headers</p></div></div>
+                    </div>
+                </div>
+                <div class="panel" id="panel-tech">
+                    <div class="panel-header"><h1>⬡ Technology Detection</h1><p>Phát hiện CMS, framework, server, CDN từ response thực tế</p></div>
+                    <div class="tool-section">
+                        <div class="input-group"><input type="text" id="techTarget" placeholder="https://target.com" class="cyber-input large"><button class="cyber-btn primary" onclick="Scanner.runModule('tech')"><span class="btn-text">DETECT</span></button></div>
+                        <div class="result-area" id="techResults"><div class="result-placeholder"><span class="placeholder-icon">⬡</span><p>Nhập URL để phát hiện công nghệ</p></div></div>
+                    </div>
+                </div>
+                <div class="panel" id="panel-files">
+                    <div class="panel-header"><h1>⊟ Sensitive Files Scanner</h1><p>Dò tìm file nhạy cảm: .env, .git, backup, config, phpinfo...</p></div>
+                    <div class="tool-section">
+                        <div class="input-group"><input type="text" id="filesTarget" placeholder="https://target.com" class="cyber-input large"><button class="cyber-btn primary" onclick="Scanner.runModule('files')"><span class="btn-text">SCAN FILES</span></button></div>
+                        <div class="result-area" id="filesResults"><div class="result-placeholder"><span class="placeholder-icon">⊟</span><p>Nhập URL để dò tìm file nhạy cảm</p></div></div>
+                    </div>
+                </div>
+                <div class="panel" id="panel-exposure">
+                    <div class="panel-header"><h1>◇ Exposure Checks</h1><p>Kiểm tra debug endpoints, directory listing, risky HTTP methods, API docs, client-side secrets và source maps</p></div>
+                    <div class="tool-section">
+                        <div class="input-group"><input type="text" id="exposureTarget" placeholder="https://target.com" class="cyber-input large"><button class="cyber-btn primary" onclick="Scanner.runModule('exposure')"><span class="btn-text">CHECK EXPOSURE</span></button></div>
+                        <div class="result-area" id="exposureResults"><div class="result-placeholder"><span class="placeholder-icon">◇</span><p>Nhập URL để kiểm tra exposure an toàn</p></div></div>
+                    </div>
+                </div>
+                <div class="panel" id="panel-xss">
+                    <div class="panel-header"><h1>⚡ XSS Scanner</h1><p>Gửi payload XSS thật vào params & forms, kiểm tra reflection</p></div>
+                    <div class="tool-section">
+                        <div class="input-group"><input type="text" id="xssTarget" placeholder="https://target.com" class="cyber-input large"><button class="cyber-btn primary" onclick="Scanner.runModule('xss')"><span class="btn-text">TEST XSS</span></button></div>
+                        <div class="result-area" id="xssResults"><div class="result-placeholder"><span class="placeholder-icon">⚡</span><p>Nhập URL — scanner sẽ crawl và test XSS trên tất cả params/forms</p></div></div>
+                    </div>
+                </div>
+                <div class="panel" id="panel-sqli">
+                    <div class="panel-header"><h1>⛁ SQL Injection Tester</h1><p>Inject payload SQL thật, phát hiện error-based & time-based SQLi</p></div>
+                    <div class="tool-section">
+                        <div class="input-group"><input type="text" id="sqliTarget" placeholder="https://target.com" class="cyber-input large"><button class="cyber-btn primary" onclick="Scanner.runModule('sqli')"><span class="btn-text">TEST SQLi</span></button></div>
+                        <div class="result-area" id="sqliResults"><div class="result-placeholder"><span class="placeholder-icon">⛁</span><p>Nhập URL — scanner sẽ inject SQL payloads vào tất cả params/forms</p></div></div>
+                    </div>
+                </div>
+                <div class="panel" id="panel-lfi">
+                    <div class="panel-header"><h1>📂 LFI / Path Traversal</h1><p>Test Local File Inclusion và Directory Traversal thực tế</p></div>
+                    <div class="tool-section">
+                        <div class="input-group"><input type="text" id="lfiTarget" placeholder="https://target.com" class="cyber-input large"><button class="cyber-btn primary" onclick="Scanner.runModule('lfi')"><span class="btn-text">TEST LFI</span></button></div>
+                        <div class="result-area" id="lfiResults"><div class="result-placeholder"><span class="placeholder-icon">📂</span><p>Nhập URL để test path traversal</p></div></div>
+                    </div>
+                </div>
+                <div class="panel" id="panel-cors">
+                    <div class="panel-header"><h1>🌐 CORS Misconfiguration</h1><p>Test CORS policy với origin giả mạo để kiểm tra cấu hình</p></div>
+                    <div class="tool-section">
+                        <div class="input-group"><input type="text" id="corsTarget" placeholder="https://target.com" class="cyber-input large"><button class="cyber-btn primary" onclick="Scanner.runModule('cors')"><span class="btn-text">TEST CORS</span></button></div>
+                        <div class="result-area" id="corsResults"><div class="result-placeholder"><span class="placeholder-icon">🌐</span><p>Nhập URL để kiểm tra CORS</p></div></div>
+                    </div>
+                </div>
+                <div class="panel" id="panel-redirect">
+                    <div class="panel-header"><h1>↪ Open Redirect</h1><p>Test open redirect trên các URL params liên quan đến redirect</p></div>
+                    <div class="tool-section">
+                        <div class="input-group"><input type="text" id="redirectTarget" placeholder="https://target.com" class="cyber-input large"><button class="cyber-btn primary" onclick="Scanner.runModule('redirect')"><span class="btn-text">TEST REDIRECT</span></button></div>
+                        <div class="result-area" id="redirectResults"><div class="result-placeholder"><span class="placeholder-icon">↪</span><p>Nhập URL để test open redirect</p></div></div>
+                    </div>
+                </div>
+                <div class="panel" id="panel-ssl">
+                    <div class="panel-header"><h1>🔒 SSL/TLS Analysis</h1><p>Kết nối TLS thực tế, đọc certificate, kiểm tra protocol</p></div>
+                    <div class="tool-section">
+                        <div class="input-group"><input type="text" id="sslTarget" placeholder="target.com" class="cyber-input large"><button class="cyber-btn primary" onclick="Scanner.runModule('ssl')"><span class="btn-text">ANALYZE SSL</span></button></div>
+                        <div class="result-area" id="sslResults"><div class="result-placeholder"><span class="placeholder-icon">🔒</span><p>Nhập domain để phân tích SSL/TLS</p></div></div>
+                    </div>
+                </div>
+                <div class="panel" id="panel-dns">
+                    <div class="panel-header"><h1>◈ DNS Enumeration</h1><p>Truy vấn DNS thực tế: A, AAAA, MX, NS, TXT, CNAME, SOA + SPF/DMARC check</p></div>
+                    <div class="tool-section">
+                        <div class="input-group"><input type="text" id="dnsTarget" placeholder="target.com" class="cyber-input large"><button class="cyber-btn primary" onclick="Scanner.runModule('dns')"><span class="btn-text">ENUMERATE</span></button></div>
+                        <div class="result-area" id="dnsResults"><div class="result-placeholder"><span class="placeholder-icon">◈</span><p>Nhập domain để truy vấn DNS</p></div></div>
+                    </div>
+                </div>
+                <div class="panel" id="panel-subdomains">
+                    <div class="panel-header"><h1>🔍 Subdomain Discovery</h1><p>DNS brute-force + Certificate Transparency (crt.sh) — tìm subdomain thật</p></div>
+                    <div class="tool-section">
+                        <div class="input-group"><input type="text" id="subdomainsTarget" placeholder="target.com" class="cyber-input large"><button class="cyber-btn primary" onclick="Scanner.runModule('subdomains')"><span class="btn-text">DISCOVER</span></button></div>
+                        <div class="result-area" id="subdomainsResults"><div class="result-placeholder"><span class="placeholder-icon">🔍</span><p>Nhập domain để tìm subdomain</p></div></div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+    <script src="app.js"></script>
+</body>
+</html>

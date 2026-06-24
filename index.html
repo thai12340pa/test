@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Advanced Penetration Testing Toolkit - Professional cybersecurity assessment platform">
+    <title>CyberPulse | Penetration Testing Toolkit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Matrix Rain Canvas Background -->
+    <canvas id="matrixCanvas"></canvas>
+
+    <!-- Scan Lines Overlay -->
+    <div class="scanlines"></div>
+
+    <!-- Main App Container -->
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 40 40" fill="none">
+                            <circle cx="20" cy="20" r="18" stroke="url(#logoGrad)" stroke-width="2" fill="none"/>
+                            <path d="M20 8 L20 32 M8 20 L32 20 M12 12 L28 28 M28 12 L12 28" stroke="url(#logoGrad)" stroke-width="1.5" opacity="0.5"/>
+                            <circle cx="20" cy="20" r="6" stroke="url(#logoGrad)" stroke-width="2" fill="none"/>
+                            <circle cx="20" cy="20" r="2" fill="#00ff88"/>
+                            <defs>
+                                <linearGradient id="logoGrad" x1="0" y1="0" x2="40" y2="40">
+                                    <stop offset="0%" stop-color="#00ff88"/>
+                                    <stop offset="100%" stop-color="#00d4ff"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="logo-text">
+                        <span class="logo-name">CyberPulse</span>
+                        <span class="logo-version">v3.0 Pro</span>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="nav-section-title">DASHBOARD</span>
+                    <a href="#" class="nav-item active" data-panel="dashboard" id="nav-dashboard">
+                        <span class="nav-icon">◉</span>
+                        <span class="nav-label">Tổng quan</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <span class="nav-section-title">THU THẬP THÔNG TIN</span>
+                    <a href="#" class="nav-item" data-panel="whois" id="nav-whois">
+                        <span class="nav-icon">⊕</span>
+                        <span class="nav-label">WHOIS Lookup</span>
+                    </a>
+                    <a href="#" class="nav-item" data-panel="dns" id="nav-dns">
+                        <span class="nav-icon">◈</span>
+                        <span class="nav-label">DNS Enumeration</span>
+                    </a>
+                    <a href="#" class="nav-item" data-panel="headers" id="nav-headers">
+                        <span class="nav-icon">◧</span>
+                        <span class="nav-label">HTTP Headers</span>
+                    </a>
+                    <a href="#" class="nav-item" data-panel="tech" id="nav-tech">
+                        <span class="nav-icon">⬡</span>
+                        <span class="nav-label">Tech Detection</span>
+                    </a>
+                    <a href="#" class="nav-item" data-panel="subdomain" id="nav-subdomain">
+                        <span class="nav-icon">◎</span>
+                        <span class="nav-label">Subdomain Finder</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <span class="nav-section-title">QUÉT LỖ HỔNG</span>
+                    <a href="#" class="nav-item" data-panel="portscan" id="nav-portscan">
+                        <span class="nav-icon">⊞</span>
+                        <span class="nav-label">Port Scanner</span>
+                    </a>
+                    <a href="#" class="nav-item" data-panel="ssl" id="nav-ssl">
+                        <span class="nav-icon">⊠</span>
+                        <span class="nav-label">SSL/TLS Analyzer</span>
+                    </a>
+                    <a href="#" class="nav-item" data-panel="xss" id="nav-xss">
+                        <span class="nav-icon">⚡</span>
+                        <span class="nav-label">XSS Scanner</span>
+                    </a>
+                    <a href="#" class="nav-item" data-panel="sqli" id="nav-sqli">
+                        <span class="nav-icon">⛁</span>
+                        <span class="nav-label">SQLi Tester</span>
+                    </a>
+                    <a href="#" class="nav-item" data-panel="dirscan" id="nav-dirscan">
+                        <span class="nav-icon">⊟</span>
+                        <span class="nav-label">Directory Scanner</span>
+                    </a>
+                    <a href="#" class="nav-item" data-panel="cve" id="nav-cve">
+                        <span class="nav-icon">⚠</span>
+                        <span class="nav-label">CVE Lookup</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <span class="nav-section-title">CÔNG CỤ</span>
+                    <a href="#" class="nav-item" data-panel="encoder" id="nav-encoder">
+                        <span class="nav-icon">⟐</span>
+                        <span class="nav-label">Encoder/Decoder</span>
+                    </a>
+                    <a href="#" class="nav-item" data-panel="hash" id="nav-hash">
+                        <span class="nav-icon">⟁</span>
+                        <span class="nav-label">Hash Generator</span>
+                    </a>
+                    <a href="#" class="nav-item" data-panel="passgen" id="nav-passgen">
+                        <span class="nav-icon">⚿</span>
+                        <span class="nav-label">Password Generator</span>
+                    </a>
+                    <a href="#" class="nav-item" data-panel="report" id="nav-report">
+                        <span class="nav-icon">⊡</span>
+                        <span class="nav-label">Report Generator</span>
+                    </a>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="system-status">
+                    <span class="status-dot pulse"></span>
+                    <span class="status-text">System Online</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="topbar">
+                <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle Sidebar">☰</button>
+                <div class="topbar-left">
+                    <div class="breadcrumb" id="breadcrumb">
+                        <span class="breadcrumb-icon">◉</span>
+                        <span class="breadcrumb-text">Dashboard</span>
+                    </div>
+                </div>
+                <div class="topbar-right">
+                    <div class="topbar-clock" id="topbarClock"></div>
+                    <div class="topbar-indicator">
+                        <span class="indicator-dot"></span>
+                        <span>Secure Connection</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Panels -->
+            <div class="content-area" id="contentArea">
+
+                <!-- ==================== DASHBOARD ==================== -->
+                <div class="panel active" id="panel-dashboard">
+                    <div class="dashboard-hero">
+                        <div class="hero-content">
+                            <h1 class="hero-title">
+                                <span class="glitch" data-text="CyberPulse">CyberPulse</span>
+                                <span class="hero-subtitle">Penetration Testing Toolkit</span>
+                            </h1>
+                            <p class="hero-desc">Bộ công cụ kiểm thử bảo mật chuyên nghiệp. Phân tích, quét lỗ hổng và đánh giá an ninh mạng.</p>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon" style="--accent: #00ff88">⊕</div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="statScans">0</span>
+                                <span class="stat-label">Lượt quét</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="--accent: #ff4757">⚠</div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="statVulns">0</span>
+                                <span class="stat-label">Lỗ hổng tìm thấy</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="--accent: #ffa502">⊞</div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="statTargets">0</span>
+                                <span class="stat-label">Mục tiêu đã quét</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="--accent: #00d4ff">⊡</div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="statReports">0</span>
+                                <span class="stat-label">Báo cáo tạo ra</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="card quick-scan-card">
+                            <div class="card-header">
+                                <h2>⚡ Quét nhanh</h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="input-group">
+                                    <input type="text" id="quickScanTarget" placeholder="Nhập domain hoặc IP..." class="cyber-input">
+                                    <button class="cyber-btn primary" onclick="App.quickScan()">
+                                        <span class="btn-text">SCAN</span>
+                                        <span class="btn-glow"></span>
+                                    </button>
+                                </div>
+                                <div class="quick-scan-results" id="quickScanResults"></div>
+                            </div>
+                        </div>
+
+                        <div class="card activity-card">
+                            <div class="card-header">
+                                <h2>📋 Lịch sử hoạt động</h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="activity-log" id="activityLog">
+                                    <div class="activity-empty">
+                                        <span class="activity-empty-icon">◇</span>
+                                        <p>Chưa có hoạt động nào</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== WHOIS LOOKUP ==================== -->
+                <div class="panel" id="panel-whois">
+                    <div class="panel-header">
+                        <h1>⊕ WHOIS Lookup</h1>
+                        <p>Tra cứu thông tin đăng ký tên miền, chủ sở hữu, và thời hạn</p>
+                    </div>
+                    <div class="tool-section">
+                        <div class="input-group">
+                            <input type="text" id="whoisTarget" placeholder="example.com" class="cyber-input large">
+                            <button class="cyber-btn primary" onclick="Tools.whoisLookup()">
+                                <span class="btn-text">TRA CỨU</span>
+                                <span class="btn-glow"></span>
+                            </button>
+                        </div>
+                        <div class="result-area" id="whoisResults">
+                            <div class="result-placeholder">
+                                <span class="placeholder-icon">⊕</span>
+                                <p>Nhập tên miền để tra cứu thông tin WHOIS</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== DNS ENUMERATION ==================== -->
+                <div class="panel" id="panel-dns">
+                    <div class="panel-header">
+                        <h1>◈ DNS Enumeration</h1>
+                        <p>Tra cứu các bản ghi DNS: A, AAAA, MX, NS, TXT, CNAME, SOA</p>
+                    </div>
+                    <div class="tool-section">
+                        <div class="input-row">
+                            <input type="text" id="dnsTarget" placeholder="example.com" class="cyber-input large">
+                            <select id="dnsRecordType" class="cyber-select">
+                                <option value="A">A Record</option>
+                                <option value="AAAA">AAAA Record</option>
+                                <option value="MX">MX Record</option>
+                                <option value="NS">NS Record</option>
+                                <option value="TXT">TXT Record</option>
+                                <option value="CNAME">CNAME Record</option>
+                                <option value="SOA">SOA Record</option>
+                                <option value="ALL">Tất cả</option>
+                            </select>
+                            <button class="cyber-btn primary" onclick="Tools.dnsLookup()">
+                                <span class="btn-text">TRUY VẤN</span>
+                                <span class="btn-glow"></span>
+                            </button>
+                        </div>
+                        <div class="result-area" id="dnsResults">
+                            <div class="result-placeholder">
+                                <span class="placeholder-icon">◈</span>
+                                <p>Nhập tên miền để tra cứu DNS records</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== HTTP HEADERS ==================== -->
+                <div class="panel" id="panel-headers">
+                    <div class="panel-header">
+                        <h1>◧ HTTP Headers Analysis</h1>
+                        <p>Phân tích HTTP response headers và kiểm tra các security headers</p>
+                    </div>
+                    <div class="tool-section">
+                        <div class="input-group">
+                            <input type="text" id="headersTarget" placeholder="https://example.com" class="cyber-input large">
+                            <button class="cyber-btn primary" onclick="Tools.headersAnalysis()">
+                                <span class="btn-text">PHÂN TÍCH</span>
+                                <span class="btn-glow"></span>
+                            </button>
+                        </div>
+                        <div class="result-area" id="headersResults">
+                            <div class="result-placeholder">
+                                <span class="placeholder-icon">◧</span>
+                                <p>Nhập URL để phân tích HTTP headers</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== TECH DETECTION ==================== -->
+                <div class="panel" id="panel-tech">
+                    <div class="panel-header">
+                        <h1>⬡ Technology Detection</h1>
+                        <p>Phát hiện công nghệ, framework, CMS và server được sử dụng</p>
+                    </div>
+                    <div class="tool-section">
+                        <div class="input-group">
+                            <input type="text" id="techTarget" placeholder="https://example.com" class="cyber-input large">
+                            <button class="cyber-btn primary" onclick="Tools.techDetection()">
+                                <span class="btn-text">PHÁT HIỆN</span>
+                                <span class="btn-glow"></span>
+                            </button>
+                        </div>
+                        <div class="result-area" id="techResults">
+                            <div class="result-placeholder">
+                                <span class="placeholder-icon">⬡</span>
+                                <p>Nhập URL để phát hiện công nghệ</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== SUBDOMAIN FINDER ==================== -->
+                <div class="panel" id="panel-subdomain">
+                    <div class="panel-header">
+                        <h1>◎ Subdomain Finder</h1>
+                        <p>Tìm kiếm subdomain từ nhiều nguồn dữ liệu khác nhau</p>
+                    </div>
+                    <div class="tool-section">
+                        <div class="input-group">
+                            <input type="text" id="subdomainTarget" placeholder="example.com" class="cyber-input large">
+                            <button class="cyber-btn primary" onclick="Tools.subdomainFinder()">
+                                <span class="btn-text">TÌM KIẾM</span>
+                                <span class="btn-glow"></span>
+                            </button>
+                        </div>
+                        <div class="result-area" id="subdomainResults">
+                            <div class="result-placeholder">
+                                <span class="placeholder-icon">◎</span>
+                                <p>Nhập domain để tìm kiếm subdomain</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== PORT SCANNER ==================== -->
+                <div class="panel" id="panel-portscan">
+                    <div class="panel-header">
+                        <h1>⊞ Port Scanner</h1>
+                        <p>Quét các cổng mạng phổ biến và phát hiện dịch vụ đang chạy</p>
+                    </div>
+                    <div class="tool-section">
+                        <div class="input-row">
+                            <input type="text" id="portTarget" placeholder="IP hoặc domain" class="cyber-input large">
+                            <select id="portRange" class="cyber-select">
+                                <option value="common">Top 20 Common Ports</option>
+                                <option value="web">Web Ports (80,443,8080,8443)</option>
+                                <option value="db">Database Ports</option>
+                                <option value="mail">Mail Ports</option>
+                                <option value="full">Top 100 Ports</option>
+                            </select>
+                            <button class="cyber-btn primary" onclick="Tools.portScan()">
+                                <span class="btn-text">QUÉT</span>
+                                <span class="btn-glow"></span>
+                            </button>
+                        </div>
+                        <div class="scan-progress" id="portProgress" style="display:none">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="portProgressFill"></div>
+                            </div>
+                            <span class="progress-text" id="portProgressText">0%</span>
+                        </div>
+                        <div class="result-area" id="portResults">
+                            <div class="result-placeholder">
+                                <span class="placeholder-icon">⊞</span>
+                                <p>Nhập target để quét cổng mạng</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== SSL/TLS ANALYZER ==================== -->
+                <div class="panel" id="panel-ssl">
+                    <div class="panel-header">
+                        <h1>⊠ SSL/TLS Analyzer</h1>
+                        <p>Kiểm tra chứng chỉ SSL, phiên bản TLS và các vấn đề bảo mật</p>
+                    </div>
+                    <div class="tool-section">
+                        <div class="input-group">
+                            <input type="text" id="sslTarget" placeholder="example.com" class="cyber-input large">
+                            <button class="cyber-btn primary" onclick="Tools.sslAnalyze()">
+                                <span class="btn-text">PHÂN TÍCH</span>
+                                <span class="btn-glow"></span>
+                            </button>
+                        </div>
+                        <div class="result-area" id="sslResults">
+                            <div class="result-placeholder">
+                                <span class="placeholder-icon">⊠</span>
+                                <p>Nhập domain để phân tích SSL/TLS</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== XSS SCANNER ==================== -->
+                <div class="panel" id="panel-xss">
+                    <div class="panel-header">
+                        <h1>⚡ XSS Scanner</h1>
+                        <p>Kiểm tra lỗ hổng Cross-Site Scripting với các payload phổ biến</p>
+                    </div>
+                    <div class="tool-section">
+                        <div class="input-group">
+                            <input type="text" id="xssTarget" placeholder="https://example.com/search?q=" class="cyber-input large">
+                            <button class="cyber-btn primary" onclick="Tools.xssScan()">
+                                <span class="btn-text">QUÉT XSS</span>
+                                <span class="btn-glow"></span>
+                            </button>
+                        </div>
+                        <div class="payload-list">
+                            <h3>Payload Templates</h3>
+                            <div class="payload-chips" id="xssPayloads"></div>
+                        </div>
+                        <div class="result-area" id="xssResults">
+                            <div class="result-placeholder">
+                                <span class="placeholder-icon">⚡</span>
+                                <p>Nhập URL có tham số để kiểm tra XSS</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== SQLi TESTER ==================== -->
+                <div class="panel" id="panel-sqli">
+                    <div class="panel-header">
+                        <h1>⛁ SQL Injection Tester</h1>
+                        <p>Kiểm tra lỗ hổng SQL Injection với các pattern phổ biến</p>
+                    </div>
+                    <div class="tool-section">
+                        <div class="input-group">
+                            <input type="text" id="sqliTarget" placeholder="https://example.com/product?id=1" class="cyber-input large">
+                            <button class="cyber-btn primary" onclick="Tools.sqliTest()">
+                                <span class="btn-text">KIỂM TRA</span>
+                                <span class="btn-glow"></span>
+                            </button>
+                        </div>
+                        <div class="payload-list">
+                            <h3>SQL Injection Payloads</h3>
+                            <div class="payload-chips" id="sqliPayloads"></div>
+                        </div>
+                        <div class="result-area" id="sqliResults">
+                            <div class="result-placeholder">
+                                <span class="placeholder-icon">⛁</span>
+                                <p>Nhập URL có tham số để kiểm tra SQLi</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== DIRECTORY SCANNER ==================== -->
+                <div class="panel" id="panel-dirscan">
+                    <div class="panel-header">
+                        <h1>⊟ Directory Scanner</h1>
+                        <p>Dò tìm thư mục và file ẩn trên web server</p>
+                    </div>
+                    <div class="tool-section">
+                        <div class="input-row">
+                            <input type="text" id="dirscanTarget" placeholder="https://example.com" class="cyber-input large">
+                            <select id="dirscanWordlist" class="cyber-select">
+                                <option value="common">Common Directories</option>
+                                <option value="admin">Admin Panels</option>
+                                <option value="backup">Backup Files</option>
+                                <option value="config">Config Files</option>
+                                <option value="api">API Endpoints</option>
+                            </select>
+                            <button class="cyber-btn primary" onclick="Tools.dirScan()">
+                                <span class="btn-text">DÒ TÌM</span>
+                                <span class="btn-glow"></span>
+                            </button>
+                        </div>
+                        <div class="scan-progress" id="dirProgress" style="display:none">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="dirProgressFill"></div>
+                            </div>
+                            <span class="progress-text" id="dirProgressText">0%</span>
+                        </div>
+                        <div class="result-area" id="dirscanResults">
+                            <div class="result-placeholder">
+                                <span class="placeholder-icon">⊟</span>
+                                <p>Nhập URL để dò tìm thư mục ẩn</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== CVE LOOKUP ==================== -->
+                <div class="panel" id="panel-cve">
+                    <div class="panel-header">
+                        <h1>⚠ CVE Lookup</h1>
+                        <p>Tra cứu lỗ hổng bảo mật đã biết theo CVE ID hoặc từ khóa</p>
+                    </div>
+                    <div class="tool-section">
+                        <div class="input-group">
+                            <input type="text" id="cveTarget" placeholder="CVE-2024-xxxx hoặc từ khóa (vd: Apache, nginx)" class="cyber-input large">
+                            <button class="cyber-btn primary" onclick="Tools.cveLookup()">
+                                <span class="btn-text">TRA CỨU</span>
+                                <span class="btn-glow"></span>
+                            </button>
+                        </div>
+                        <div class="result-area" id="cveResults">
+                            <div class="result-placeholder">
+                                <span class="placeholder-icon">⚠</span>
+                                <p>Nhập CVE ID hoặc từ khóa để tra cứu</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== ENCODER/DECODER ==================== -->
+                <div class="panel" id="panel-encoder">
+                    <div class="panel-header">
+                        <h1>⟐ Encoder / Decoder</h1>
+                        <p>Mã hóa và giải mã dữ liệu với nhiều định dạng khác nhau</p>
+                    </div>
+                    <div class="tool-section">
+                        <div class="encoder-container">
+                            <div class="encoder-controls">
+                                <select id="encoderType" class="cyber-select">
+                                    <option value="base64">Base64</option>
+                                    <option value="url">URL Encode</option>
+                                    <option value="html">HTML Entities</option>
+                                    <option value="hex">Hexadecimal</option>
+                                    <option value="binary">Binary</option>
+                                    <option value="rot13">ROT13</option>
+                                    <option value="unicode">Unicode Escape</option>
+                                </select>
+                                <div class="encoder-btns">
+                                    <button class="cyber-btn primary" onclick="Tools.encode()">
+                                        <span class="btn-text">ENCODE →</span>
+                                    </button>
+                                    <button class="cyber-btn secondary" onclick="Tools.decode()">
+                                        <span class="btn-text">← DECODE</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="encoder-panels">
+                                <div class="encoder-panel">
+                                    <label>Input</label>
+                                    <textarea id="encoderInput" class="cyber-textarea" placeholder="Nhập text cần encode/decode..."></textarea>
+                                </div>
+                                <div class="encoder-panel">
+                                    <label>Output</label>
+                                    <textarea id="encoderOutput" class="cyber-textarea" readonly placeholder="Kết quả sẽ hiển thị ở đây..."></textarea>
+                                    <button class="copy-btn" onclick="Tools.copyOutput('encoderOutput')">📋 Copy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== HASH GENERATOR ==================== -->
+                <div class="panel" id="panel-hash">
+                    <div class="panel-header">
+                        <h1>⟁ Hash Generator</h1>
+                        <p>Tạo hash từ text hoặc kiểm tra hash có khớp không</p>
+                    </div>
+                    <div class="tool-section">
+                        <div class="hash-container">
+                            <div class="input-group">
+                                <textarea id="hashInput" class="cyber-textarea" placeholder="Nhập text cần hash..."></textarea>
+                            </div>
+                            <button class="cyber-btn primary" onclick="Tools.generateHash()" style="margin: 1rem 0;">
+                                <span class="btn-text">TẠO HASH</span>
+                                <span class="btn-glow"></span>
+                            </button>
+                            <div class="result-area" id="hashResults">
+                                <div class="result-placeholder">
+                                    <span class="placeholder-icon">⟁</span>
+                                    <p>Nhập text và nhấn tạo hash</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== PASSWORD GENERATOR ==================== -->
+                <div class="panel" id="panel-passgen">
+                    <div class="panel-header">
+                        <h1>⚿ Password Generator</h1>
+                        <p>Tạo mật khẩu mạnh và kiểm tra độ mạnh mật khẩu</p>
+                    </div>
+                    <div class="tool-section">
+                        <div class="passgen-container">
+                            <div class="passgen-output">
+                                <input type="text" id="passgenOutput" class="cyber-input large mono" readonly value="">
+                                <button class="copy-btn" onclick="Tools.copyOutput('passgenOutput')">📋</button>
+                            </div>
+                            <div class="passgen-options">
+                                <div class="passgen-slider">
+                                    <label>Độ dài: <span id="passLengthVal">16</span></label>
+                                    <input type="range" id="passLength" min="8" max="64" value="16" class="cyber-range" oninput="document.getElementById('passLengthVal').textContent=this.value">
+                                </div>
+                                <div class="passgen-checks">
+                                    <label class="cyber-checkbox">
+                                        <input type="checkbox" id="passUpper" checked> Chữ hoa (A-Z)
+                                    </label>
+                                    <label class="cyber-checkbox">
+                                        <input type="checkbox" id="passLower" checked> Chữ thường (a-z)
+                                    </label>
+                                    <label class="cyber-checkbox">
+                                        <input type="checkbox" id="passNumbers" checked> Số (0-9)
+                                    </label>
+                                    <label class="cyber-checkbox">
+                                        <input type="checkbox" id="passSymbols" checked> Ký tự đặc biệt (!@#$...)
+                                    </label>
+                                </div>
+                                <button class="cyber-btn primary" onclick="Tools.generatePassword()">
+                                    <span class="btn-text">TẠO MẬT KHẨU</span>
+                                    <span class="btn-glow"></span>
+                                </button>
+                            </div>
+                            <div class="pass-strength" id="passStrength"></div>
+                            <div class="pass-checker">
+                                <h3>Kiểm tra độ mạnh mật khẩu</h3>
+                                <div class="input-group">
+                                    <input type="text" id="passCheckInput" placeholder="Nhập mật khẩu cần kiểm tra..." class="cyber-input" oninput="Tools.checkPasswordStrength()">
+                                </div>
+                                <div id="passCheckResult"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== REPORT GENERATOR ==================== -->
+                <div class="panel" id="panel-report">
+                    <div class="panel-header">
+                        <h1>⊡ Report Generator</h1>
+                        <p>Tạo báo cáo kiểm thử bảo mật từ các kết quả đã thu thập</p>
+                    </div>
+                    <div class="tool-section">
+                        <div class="report-container">
+                            <div class="report-meta">
+                                <div class="input-group">
+                                    <input type="text" id="reportTitle" placeholder="Tiêu đề báo cáo" class="cyber-input">
+                                </div>
+                                <div class="input-group">
+                                    <input type="text" id="reportTarget" placeholder="Mục tiêu kiểm thử" class="cyber-input">
+                                </div>
+                                <div class="input-group">
+                                    <input type="text" id="reportAuthor" placeholder="Tác giả" class="cyber-input">
+                                </div>
+                            </div>
+                            <div class="report-findings" id="reportFindings">
+                                <h3>Các phát hiện đã ghi nhận: <span id="findingsCount">0</span></h3>
+                                <div class="findings-list" id="findingsList"></div>
+                            </div>
+                            <div class="report-actions">
+                                <button class="cyber-btn primary" onclick="Tools.generateReport()">
+                                    <span class="btn-text">TẠO BÁO CÁO HTML</span>
+                                    <span class="btn-glow"></span>
+                                </button>
+                                <button class="cyber-btn secondary" onclick="Tools.exportJSON()">
+                                    <span class="btn-text">XUẤT JSON</span>
+                                </button>
+                                <button class="cyber-btn danger" onclick="Tools.clearFindings()">
+                                    <span class="btn-text">XÓA TẤT CẢ</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <div class="spinner-ring"></div>
+            <span class="loading-text">Đang xử lý...</span>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
